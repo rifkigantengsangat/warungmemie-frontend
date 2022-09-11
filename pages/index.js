@@ -1,29 +1,34 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import {User} from '../AuthContext/AuthContext'
 import { useRouter } from 'next/router'
 import { useEffect } from 'react';
+import {User} from '../Context'
 import axios from 'axios'
-export default function Home() {
+import Homes from '../Components/Homes';
+import Navbar from '../Components/Navbar';
+export default function Home({data}) {
+  console.log(data)
   const router = useRouter();
   const {user,Logout} = User();
-  console.log(user)
-useEffect(()=>{
-  if(!user){
-    console.log('Please select a user')
-  }else{
-    console.log('anda User')
-  }
-},[user])
+
 const logout=async()=>{
   await Logout();
 
 }
 
   return (
-  <div>
-    <button onClick={()=>logout()}>Logout</button>
-  </div>
+  <>
+  <Navbar/>
+  <Homes/>
+  </>
   )
+  
 }
+export async function getServerSideProps(){
+  const {data} = await axios.get('http://localhost:8000/api/menu');
+  return{
+    props: {data}
+  }
+}
+

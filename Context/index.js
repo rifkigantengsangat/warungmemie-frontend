@@ -5,6 +5,9 @@ const authContext = createContext();
 export const Provider = ({children})=>{
     const [token,setToken] = useState(null)
     const [user,setUser] = useState('');
+    const [disabled,setDisabled] =useState(true);
+    const [identity,setIdentity] = useState([])
+    const [data,setData] = useState([])
 
     const router = useRouter()
 const register =async(name,email,password)=>{
@@ -15,7 +18,9 @@ const response = await axios.post('http://localhost:8000/api/auth/register',{
 })
 
  if(response.status=== 201){
-    
+    router.push('/login')
+ }else{
+    return false
  }
 }
 const login =  async(email, password) =>{
@@ -24,8 +29,9 @@ await axios.get('http://localhost:8000/sanctum/csrf-cookie',{withCredentials:tru
         email: email,
         password: password
     })
-    if(response.status === 200){
-        setToken(response.data.token)
+    if(response.status === 200 && token===null){
+        setToken(response?.data?.token)
+        setIdentity(response?.data);
         router.push('/')
     }else{
         throw error();
@@ -42,21 +48,30 @@ const Logout =async()=>{
          config
         );
         if(response.status === 200){
-          window.localStorage.removeItem("token")
-          router.push('/register')
+        window.localStorage.clear();
+          router.push('/login')
+        }else{
+            return false;
         }
       } catch (error) {
         console.log(error)
       }
 }
+const handleDisable = (name,email,password)=>{
+if(name.length>0 &&email.length>0 &&password.length>=8){
+   setDisabled(false);
+}else{
+    setDisabled(true)
+}
+}
 
 useEffect(() => {
     if (typeof window !== "undefined"){
         if (window.localStorage.getItem("token")) { 
-     const Json =window.localStorage.getItem("token")
-      if(Json){
-        setUser(Json)
-      }
+     const datas =window.localStorage.getItem("token")
+     const identitas = JSON.parse(window.localStorage.getItem("identity"))
+     setData(identitas)
+        setUser(datas)
         }
     }
  }, []);
@@ -64,6 +79,7 @@ useEffect(() => {
     if (typeof window !== "undefined"){
         if(token!==null){
             window.localStorage.setItem('token',token);  
+            window.localStorage.setItem('identity',JSON.stringify(identity))
         }else{
             return;
         }
@@ -71,7 +87,7 @@ useEffect(() => {
     }
 },[token])
 return(
-    <authContext.Provider value={{register,login,user,Logout}}>
+    <authContext.Provider value={{register,login,user,Logout,handleDisable,disabled,data}}>
         {children}
     </authContext.Provider>
 )
