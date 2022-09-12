@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
 import HomeTop from './HomeTop'
-const Homes = () => {
+import HomeBottom from './HomeBottom'
+const Homes = ({datas}) => {
   
 
   return (
-    <div className='w-full bg-[#EEF2FF] h-screen '>
-      <HomeTop/>
+    <div className='w-full bg-[#EEF2FF] h-screen overflow-x-hidden '>
+      <HomeTop datas={datas}/>
     </div>
   )
 }

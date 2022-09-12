@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+const plugin = require('tailwindcss/plugin')
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -8,8 +9,10 @@ module.exports = {
     extend: {
       fontFamily: {
         'poppins': ['"Poppins"', 'sans-serif'],
+        'monserrat':['"Montserrat"', 'sans-serif'], 
       },
     },
   },
-  plugins: [],
+  plugins: [
+  ],
 }

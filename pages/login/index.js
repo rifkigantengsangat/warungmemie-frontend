@@ -13,6 +13,8 @@ export default function login(){
     useEffect(()=>{
       if(user){
          router.push('/')
+      }else{
+        router.push('/login')
       }
     },[user])
     const [disabled,setDisabled] = useState(true);

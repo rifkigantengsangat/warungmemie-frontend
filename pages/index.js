@@ -7,8 +7,8 @@ import {User} from '../Context'
 import axios from 'axios'
 import Homes from '../Components/Homes';
 import Navbar from '../Components/Navbar';
-export default function Home({data}) {
-  console.log(data)
+export default function Home({datas}) {
+
   const router = useRouter();
   const {user,Logout} = User();
 
@@ -20,15 +20,16 @@ const logout=async()=>{
   return (
   <>
   <Navbar/>
-  <Homes/>
+  <Homes datas={datas}/>
   </>
   )
   
 }
 export async function getServerSideProps(){
   const {data} = await axios.get('http://localhost:8000/api/menu');
+   const datas = data.data
   return{
-    props: {data}
+    props: {datas}
   }
 }
 

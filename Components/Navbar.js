@@ -6,11 +6,7 @@ import {IoFastFoodOutline} from 'react-icons/io5'
 import {BsBasket} from 'react-icons/bs'
 const Navbar = () => {
   const router = useRouter();
-  useEffect(() => {
-    if (router.pathname === "/") {
-      console.log("haloo");
-    }
-  });
+  
 const pathname = router.pathname;
   return (
     <div className="w-11/12 mx-auto h-14 bg-black absolute bottom-3 left-0 right-0 z-10 rounded-full shadow-xl">

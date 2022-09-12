@@ -49,7 +49,7 @@ const Logout =async()=>{
         );
         if(response.status === 200){
         window.localStorage.clear();
-          router.push('/login')
+          router.push('/register')
         }else{
             return false;
         }
@@ -70,8 +70,10 @@ useEffect(() => {
         if (window.localStorage.getItem("token")) { 
      const datas =window.localStorage.getItem("token")
      const identitas = JSON.parse(window.localStorage.getItem("identity"))
-     setData(identitas)
-        setUser(datas)
+     
+         setUser(datas)
+         setData(identitas)
+     
         }
     }
  }, []);
@@ -80,12 +82,10 @@ useEffect(() => {
         if(token!==null){
             window.localStorage.setItem('token',token);  
             window.localStorage.setItem('identity',JSON.stringify(identity))
-        }else{
-            return;
         }
     
     }
-},[token])
+},[token,identity])
 return(
     <authContext.Provider value={{register,login,user,Logout,handleDisable,disabled,data}}>
         {children}
