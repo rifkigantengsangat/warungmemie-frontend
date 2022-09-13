@@ -8,6 +8,7 @@ export const Provider = ({children})=>{
     const [disabled,setDisabled] =useState(true);
     const [identity,setIdentity] = useState([])
     const [data,setData] = useState([])
+    const [cart,setCart] = useState([])
 
     const router = useRouter()
 const register =async(name,email,password)=>{
@@ -82,12 +83,13 @@ useEffect(() => {
         if(token!==null){
             window.localStorage.setItem('token',token);  
             window.localStorage.setItem('identity',JSON.stringify(identity))
-        }
+            window.localStorage.setItem('chart',JSON.stringify(chart))
+        }    
     
     }
 },[token,identity])
 return(
-    <authContext.Provider value={{register,login,user,Logout,handleDisable,disabled,data}}>
+    <authContext.Provider value={{register,login,user,Logout,handleDisable,disabled,data,setCart,cart}}>
         {children}
     </authContext.Provider>
 )

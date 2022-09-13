@@ -8,20 +8,12 @@ export default function HomeTop({ datas }) {
   const logout = async () => {
     await Logout();
   };
-  function formatRupiah(angka, prefix) {
-    var number_string = angka.replace(/[^,\d]/g, "").toString(),
-      split = number_string.split(","),
-      sisa = split[0].length % 3,
-      rupiah = split[0].substr(0, sisa),
-      ribuan = split[0].substr(sisa).match(/\d{3}/gi);
-    if (ribuan) {
-      let separator = sisa ? "." : "";
-      rupiah += separator + ribuan.join(".");
-    }
-
-    rupiah = split[1] != undefined ? rupiah + "," + split[1] : rupiah;
-    return prefix == undefined ? rupiah : rupiah ? "Rp. " + rupiah : "";
-  }
+  const formatRupiah =(rp)=>{
+    const format = rp.toString().split('').reverse().join('')
+    const convert = format.match(/\d{1,3}/g);
+    const rupiah = 'Rp ' + convert.join('.').split('').reverse().join('')
+    return rupiah
+}
   function getTime() {
     const time = new Date();
     const hr = time.getHours();
@@ -66,7 +58,7 @@ export default function HomeTop({ datas }) {
                 <h1 className='text-poppins font-bold'>{data?.nama}</h1>
               </div>
               <div>
-                <h1>{formatRupiah(data?.harga, "Rp")}</h1>
+                <h1>{formatRupiah(data?.harga)}</h1>
               </div>
             </div>
           </div>

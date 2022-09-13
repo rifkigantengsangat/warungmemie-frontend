@@ -9,7 +9,7 @@ const Navbar = () => {
   
 const pathname = router.pathname;
   return (
-    <div className="w-11/12 mx-auto h-14 bg-black absolute bottom-3 left-0 right-0 z-10 rounded-full shadow-xl">
+    <div className="w-11/12 mx-auto h-14 bg-black fixed bottom-3 left-0 right-0 z-10 rounded-full shadow-xl">
       <div className="flex flex-row w-5/6 mx-auto items-center my-1 h-4/5 gap-4 justify-around">
         <div className={` ${pathname ==='/menu'? 'w-14 h-14 bg-gray-300': ''} rounded-full flex justify-center items-center `}>
           <Link href={"/menu"}>
