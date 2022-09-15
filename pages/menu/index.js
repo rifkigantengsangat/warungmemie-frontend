@@ -1,10 +1,12 @@
 import axios from "axios";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Image from "next/image";
-import Link from "next/link";
 import { User } from "../../Context";
-
+import { useEffect } from "react";
+import { formatRupiah } from "../../utils/FormatRp";
 export default function Menu({ datas }) {
   const router = useRouter();
   const {setCart,cart}= User();
@@ -13,23 +15,23 @@ export default function Menu({ datas }) {
   const {data,error} = useSWR(api,fetcher);
   if(error)return error;
   const addToChart =(menu)=>{
-    let newCart;
-   const alredyInCart = cart.find((item)=> item.id === menu.id);
-     if(alredyInCart){
-      newCart = cart.map((item)=>{
-        if(item.id === alredyInCart.id){
-          return{
-            ...item,
-            quantity : quantity + 1
-          };
-        }
-        return item;
-      });
-      setCart(newCart);
-     }
-     setCart([...cart,item]);
+    toast.success(`${menu.nama} telah Di tambahkan Ke Keranjang`,{
+      position:"bottom-right",
+    })
+    setCart(
+      cart=> cart.some(item => item.id === menu.id)
+        ? cart.map(item => item.id === menu.id
+            ? { ...item, qty: item.qty + 1 } 
+            : item 
+          )
+        : [ ...cart,{...menu,qty: menu.qty =1} ]
+    )
   }
-  
+ useEffect(() => {
+  if(window !== undefined) {
+    window.localStorage.setItem('cart', JSON.stringify(cart));
+  }
+ },[cart])
   return (
     <div className="w-full h-[1400px] bg-[#EEF2FF] px-4">
       <div className=" w-full h-20 pt-10">
@@ -64,8 +66,19 @@ export default function Menu({ datas }) {
         
         />
        </div>
-       <div className=''>
-         <button onClick={()=>addToChart(menu)}>Add</button>
+       <div className='w-full h-24 mt-4 '>
+         <div className='w-full flex justify-between px-5'>
+          <div>
+            <h1>{menu?.nama}</h1>
+          </div>
+          <div>
+            <h1>{formatRupiah(menu?.harga)}</h1>
+          </div>
+         </div>
+         <div>
+          <button className='w-11/12 mx-auto block text-center px-3 py-2  rounded-lg  bg-gray-200' onClick={()=>addToChart(menu)}>Tambahkan Ke Keranjang</button>
+          <ToastContainer/>
+         </div>
        </div>
       </div>
      ))}

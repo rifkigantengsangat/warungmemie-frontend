@@ -2,18 +2,14 @@ import { useEffect, useState } from "react";
 import { User } from "../Context";
 import Image from "next/image";
 import HomeBottom from "./HomeBottom";
+import { formatRupiah } from "../utils/FormatRp";
 export default function HomeTop({ datas }) {
   const [date, setDate] = useState("");
   const { data, Logout, user } = User();
   const logout = async () => {
     await Logout();
   };
-  const formatRupiah =(rp)=>{
-    const format = rp.toString().split('').reverse().join('')
-    const convert = format.match(/\d{1,3}/g);
-    const rupiah = 'Rp ' + convert.join('.').split('').reverse().join('')
-    return rupiah
-}
+ 
   function getTime() {
     const time = new Date();
     const hr = time.getHours();
