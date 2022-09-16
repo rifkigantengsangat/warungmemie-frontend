@@ -1,11 +1,24 @@
-import React, { useEffect } from "react";
+import React, {useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { AiFillHome } from "react-icons/ai";
 import Link from "../utils/Link";
 import {IoFastFoodOutline} from 'react-icons/io5'
+
 import {BsBasket} from 'react-icons/bs'
 const Navbar = () => {
+  const [cart,setCart] = useState([])
+  const [totalQty,setTotalQty] = useState(0)
   const router = useRouter();
+  useEffect(() => {
+    if (window.localStorage.getItem("cart")) {
+      const JsonParsing = JSON.parse(window.localStorage.getItem("cart"));
+      setCart(JsonParsing);
+    }
+  }, []);
+  const qtyResult = cart.reduce((acc,item) =>  acc = acc + item.qty , 0 )
+  useEffect(() => {
+    setTotalQty( qtyResult)
+  },[totalQty,cart]);
   
 const pathname = router.pathname;
   return (
@@ -29,6 +42,7 @@ const pathname = router.pathname;
           <Link href={"/pesanan"}>
             <div>
               <BsBasket className={`${pathname ==='/pesanan' ? 'text-white text-lg' : 'text-gray-700 text-xl'} transition-opacity duration-700`} />
+              <span>{qtyResult}</span>
             </div>
           </Link>
         </div>

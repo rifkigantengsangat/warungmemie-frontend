@@ -1,31 +1,48 @@
 import react, { useState, useEffect } from "react";
 import {User} from '../../Context'
 export default function Pesanan() {
-  const [cart, setCart] = useState([]);
-  const {user} = User();
+  const [carts, setCarts] = useState([]);
+  const { user} = User();
   useEffect(() => {
     if (window.localStorage.getItem("cart")) {
       const JsonParsing = JSON.parse(window.localStorage.getItem("cart"));
-      setCart(JsonParsing);
+      setCarts(JsonParsing);
     }
   }, []);
-  const handleMinus = (carts) => {
-    console.log(carts.qty);
+  const handlePlus= (menu) => {
+    setCarts((cart) =>
+    cart.some((item) => item.id === menu.id)
+      ? cart.map((item) =>
+          item.id === menu.id ? { ...item, qty: item.qty += 1 } : item
+        )
+      : [...cart, { ...menu, qty: (menu.qty = 1) }]
+  );
+  };
+  const handleMinus= (menu) => {
+    setCarts((cart) =>
+    cart.some((item) => item.id === menu.id)
+      ? cart.map((item) =>
+          item.id === menu.id ? { ...item, qty: item.qty == 0 ? item.qty = 0: item.qty -=1 } : item
+        )
+      : [...cart, { ...menu, qty: (menu.qty = 1) }]
+  );
   };
 
-  const handleTotal = cart.reduce((acc, item) => {
+  const handleTotal = carts.reduce((acc, item) => {
     return acc + item.qty * Number(item.harga);
   }, 0);
 
   return (
     <div>
-      {cart.length > 0 ? (
-        cart.map((carts, index) => {
+      {carts.length > 0 ? (
+        carts.map((carts, index) => {
           return (
             <div key={index}>
               <p>{carts.nama}</p>
               <p>{carts.qty}</p>
-              <button onClick={() => handleMinus(carts)}>+</button>
+              <button onClick={() => handlePlus(carts)}>+</button>
+              <button onClick={() => handleMinus(carts)}>-</button>
+
             </div>
           );
         })
