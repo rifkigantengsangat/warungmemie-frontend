@@ -5,7 +5,7 @@ import Link from "../utils/Link";
 import {IoFastFoodOutline} from 'react-icons/io5'
 
 import {BsBasket} from 'react-icons/bs'
-const Navbar = () => {
+export default function Navbar () {
   const [cart,setCart] = useState([])
   const [totalQty,setTotalQty] = useState(0)
   const router = useRouter();
@@ -15,8 +15,9 @@ const Navbar = () => {
       setCart(JsonParsing);
     }
   }, []);
-  const qtyResult = cart.reduce((acc,item) =>  acc = acc + item.qty , 0 )
+  
   useEffect(() => {
+    const qtyResult = cart.reduce((acc,item) =>  acc = acc + item.qty , 0 )
     setTotalQty( qtyResult)
   },[totalQty,cart]);
   
@@ -42,7 +43,7 @@ const pathname = router.pathname;
           <Link href={"/pesanan"}>
             <div>
               <BsBasket className={`${pathname ==='/pesanan' ? 'text-white text-lg' : 'text-gray-700 text-xl'} transition-opacity duration-700`} />
-              <span>{qtyResult}</span>
+              <span>{totalQty}</span>
             </div>
           </Link>
         </div>
@@ -51,4 +52,3 @@ const pathname = router.pathname;
   );
 };
 
-export default Navbar;

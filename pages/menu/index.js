@@ -15,7 +15,7 @@ import { GiNoodles } from "react-icons/gi";
 export default function Menu({ datas }) {
   const router = useRouter();
   const { setCart, cart } = User();
-  const api = "http://localhost:8000/api/menu";
+  const api = "http://127.0.0.1:8000/api/menu";
   const fetcher = (url) => axios.get(url).then((response) => response.data);
   const { data, error } = useSWR(api, fetcher);
   if (error) return error;
@@ -118,7 +118,7 @@ export default function Menu({ datas }) {
   );
 }
 export async function getServerSideProps() {
-  const response = await axios.get("http://localhost:8000/api/category");
+  const response = await axios.get("http://127.0.0.1:8000/api/category");
   const datas = response.data;
   return {
     props: { datas },

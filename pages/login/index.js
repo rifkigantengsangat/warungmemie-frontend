@@ -3,7 +3,7 @@ import React ,{useEffect, useState} from 'react';
 import {BsFillEyeSlashFill} from 'react-icons/bs'
 import {IoEyeSharp} from 'react-icons/io5'
 import { useRouter } from 'next/router';
-export default function login(){
+export default function Login(){
     const [form,setForm] =useState({
         email:'',
         password:'',

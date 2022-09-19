@@ -32,7 +32,7 @@ await axios.get('http://localhost:8000/sanctum/csrf-cookie',{withCredentials:tru
     })
     if(response.status === 200 && token===null){
         setToken(response?.data?.token)
-        setIdentity(response?.data);
+        setIdentity(response?.data?.data);
         router.push('/')
     }else{
         throw error();

@@ -26,7 +26,7 @@ const logout=async()=>{
   
 }
 export async function getServerSideProps(){
-  const {data} = await axios.get('http://localhost:8000/api/menu');
+  const {data} = await axios.get('http://127.0.0.1:8000/api/menu');
    const datas = data.data
   return{
     props: {datas}
